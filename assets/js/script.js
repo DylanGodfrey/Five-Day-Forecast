@@ -30,7 +30,7 @@ function renderHistory () {
         var cityListItem = $("<div>") 
         cityListItem.attr('id', historyList[i]) 
         cityListItem.text(historyList[i]) 
-        cityListItem.addClass("h4 card-header text-uppercase text-center history-list")
+        cityListItem.addClass("h4 list-group-item text-uppercase text-center history-list")
         $(".history").append(cityListItem)
     }
 };
@@ -46,7 +46,7 @@ function getHistory() {
 //Allow user to click a previous search to re-search it
 $(".history-list").on('click', function(event){
     event.preventDefault();
-    $(".subtitle").attr("style","display:inline")
+    $(".forecast-header").attr("style","display:inline");
      document.getElementById("searchInput").value =  event.target.id;
     getForecast(); 
 });
@@ -57,7 +57,7 @@ function getForecast(){
     $(".today").empty();
       
     var countryCode = 'US';
-    var cityCode = document.getElementById("searchInput").value;
+    var cityCode = document.getElementById("searchInput").value.toUpperCase();
         
     var cityName =$("<h>") 
     cityName.addClass("h3")

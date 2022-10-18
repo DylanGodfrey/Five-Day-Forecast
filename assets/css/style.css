@@ -9,15 +9,13 @@
   
 * {
     box-sizing: border-box;
-    
 }
   
 body {
-    background-image: url();
-    background-repeat: no-repeat;
+    background-color: aliceblue;
     background-size: cover;
     height: 100vh;
-    font-family: 'IBM Plex Sans', sans-serif;
+    font-family: 'Roboto', sans-serif;
     color: var(--dark);
     line-height: 1.5;
     font-size: 16px;
@@ -50,7 +48,6 @@ main {
     outline: none;
     background-color: var(--light-dark);
   
-    
     box-shadow: 3px 3px var(--dark);
     transform: translate(-1px, -1px);
 }
@@ -112,11 +109,21 @@ main {
     background-color: var(--light-dark);
     color: white;
     text-decoration: none;
-
 }
   
-.list-item:hover {
-    background-color: var(--dark);
+.list-group-item {
+    margin-bottom: 10px;
+    padding: 1.5%;
+    text-decoration: none;
+
+    color: white;
+    border-radius: var(--border-radius);
+    background-color: var(--light-dark);
+}
+
+.list-group-item:hover {
+    background-color: var(--tertiary);
+    cursor: pointer;
 }
   
 .icon {
@@ -130,36 +137,34 @@ main {
     border-radius: var(--border-radius);
 }
   
-.card-header {
-    color: var(--primary);
-    background-color: var(--dark);
+.card-header { 
     padding: 2.5%;
     border-radius: calc(0.18rem - 1px) calc(0.18rem - 1px) 0 0;
+
+    color: var(--primary);
+    background-color: var(--dark);
 }
 
 .weather-card {
     margin-bottom: 10px;
+    margin-right: 10px;
     padding: 1.5%;
+    
+    text-decoration: none;
+    
+    height: 250px;
+    line-height: 1.8;
+
     border-radius: var(--border-radius);
     background-color: var(--light-dark);
     color: var(--primary);
-    text-decoration: none;
-    margin-right: 10px;
-    height: 250px;
-    line-height: 1.8;
+    
 }
 
 .five-day {
     display:flex;
 }
 
-.subtitle {
+.forecast-header {
     display:none;
-}
-
-#footer {
-    margin-top: -100px;
-    position: relative;
-    display:flex;
-    justify-content: center;
 }
