@@ -1,11 +1,15 @@
-//add event listner to search button
+//Add event listener to search button
 document.getElementById("searchBtn").addEventListener("click", handleInput);
 
+//Add user inputted city to localstorage and fetch using it as part of the query string for the OpenWeatherAPI
 function handleInput(){
     newCity = document.getElementById("searchInput").value;
     setHistory(newCity);
     getForecast(newCity);
 }; 
+
+//RENDER previous searches (if any) from localStorage
+renderHistory();
 
 //SET LocalStorage
 function setHistory (newCityItem) {
@@ -15,9 +19,6 @@ function setHistory (newCityItem) {
     //Render new history
     renderHistory();
 };  
-
-//RENDER previous searches (if any) from localStorage
-renderHistory();
 
 function renderHistory () {
     // clear old history and display updated historyList
@@ -36,14 +37,14 @@ function renderHistory () {
 };
 
 
-//GET LocalStorage
+//GET LocalStorage, add only if new item is unique to localStorage
 function getHistory() {
     var history = localStorage.getItem("cityItem");
     (history  !== null) ? history = JSON.parse(history) : history = [];
     return history;
 }
 
-//Allow user to click a previous search to re-search it
+//Allow user to click a previous search to re-query the API with that search parameter
 $(".history-list").on('click', function(event){
     event.preventDefault();
     $(".forecast-header").attr("style","display:inline");
@@ -76,13 +77,11 @@ function getForecast(){
     $(".today").append(wind)
     $(".today").append(humidity)
     
-    //var apiKey = 'd26dbd26418ff5d073dd4e394cb4c603';
     var apiKey = '7d1b285353ccacd5326159e04cfab063';
+    //URL to fetch an object that contains the lat and lon of queried city
     var geoUrl = `https://api.openweathermap.org/geo/1.0/direct?q=${cityCode},${countryCode}&limit=5&appid=${apiKey}`;
         
-    //We then pass the requestUrl variable as an argument to the fetch() method, like in the following code:    
       fetch(geoUrl)
-        //Convert the response into JSON. Lastly, we return the JSON-formatted response, as follows:
         .then(function (response) {
           return response.json();
         })
@@ -90,7 +89,7 @@ function getForecast(){
           geoLon = data[0].lon;
           geoLat = data[0].lat;
 
-          //use geoLat and geoLon to fetch the current weather
+          //URL to fetch current weather of queried city
           var weatherUrl = `https://api.openweathermap.org/data/2.5/onecall?lat=${geoLat}&lon=${geoLon}&exclude=minutely,hourly,alerts&units=imperial&appid=${apiKey}`;
             
           fetch(weatherUrl)
@@ -98,13 +97,12 @@ function getForecast(){
                 return response.json();
             })
             .then(function (data) {
-            // console.log(data)
             
             weatherIcon= data.current.weather[0].icon;
             icon.attr('src',`https://openweathermap.org/img/wn/${weatherIcon}.png`);
         
-            cityName.text(cityCode);
-            //translate utc to date
+            cityName.text(cityCode.toUpperCase());
+            //Translate UTC to date
             var date = new Date(data.current.dt * 1000);
             dateTime.text("("+ (date.getMonth()+1) + "/" + date.getDate() + "/" + date.getFullYear() + ")");
 
@@ -112,9 +110,6 @@ function getForecast(){
             humidity.text(`Humidity: ${data.current.humidity} %`);
             wind.text(`Wind Speed: ${data.current.wind_speed} MPH`);
 
-            // WHEN I view future weather conditions for that city
-            // THEN I am presented with a 5-day forecast that displays the date, an icon representation of weather conditions, the temperature, and the humidity
-            //using the data from previous fetch and display the 5 day weather data
             for (var i=0;i<5;i++){
                 var forecastContainer = $("<div>")
                 this["futureDate"+i] = $("<h>")
@@ -122,7 +117,7 @@ function getForecast(){
                 this["futureTemp"+i] = $("<div>")
                 this["futureWind"+i] = $("<div>")
                 this["futureHumidity"+i] = $("<div>")
-                //translate utc to date
+                //Translate UTC to date
                 this["forecastDay"+i] = new Date(data.daily[i].dt * 1000);     
      
                 (this["futureDate"+i]).text(`${((this["forecastDay"+i]).getMonth()+1)}/${(this["forecastDay"+i]).getDate()}/${(this["forecastDay"+i]).getFullYear()}`);
@@ -143,7 +138,6 @@ function getForecast(){
 
                 forecastContainer.addClass("weather-card")
             }
-
           })
     })
 }
