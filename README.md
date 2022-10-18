@@ -15,6 +15,8 @@ git clone https://github.com/DylanGodfrey/Five-Day-Forecast
 
 Searching for a city using the text field and clicking the 'Search' button will display both the current weather and five day forecast of that city. It will then save that query to the sidebar, of which you can click to re-query the API again for that city. 
 
+Link to Deployed site: https://dylangodfrey.github.io/Five-Day-Forecast/
+
 ![Screenshot of finished website](assets/images/samplescreenshot.png)
 
 
